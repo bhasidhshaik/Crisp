@@ -110,8 +110,14 @@ const InterviewerDashboard = () => {
   // Filter + sort main table candidates (completed only)
   const filteredAndSortedCandidates = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
-    const filtered = normalized.filter(c => c.status !== 'pending' && c.status !== undefined && c.candidate.name.toLowerCase().includes(term));
-    return [...filtered].sort((a, b) => {
+  const filtered = normalized.filter(c =>
+      c.status !== 'pending' &&
+      c.status !== undefined &&
+      c.candidate &&
+      c.candidate.name &&
+      c.candidate.name.toLowerCase().includes(term)
+    );
+        return [...filtered].sort((a, b) => {
       const aScore = a.score ?? -1;
       const bScore = b.score ?? -1;
       return sortOrder === 'asc' ? aScore - bScore : bScore - aScore;
@@ -175,7 +181,7 @@ const InterviewerDashboard = () => {
         </div>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 flex-col md:flex-row ">
         {/* MAIN TABLE */}
         <div
           className={`flex-1 border rounded-lg bg-white shadow-sm p-0 overflow-hidden ${dragOverTarget === 'main' ? 'ring-2 ring-blue-300' : ''}`}
