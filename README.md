@@ -4,12 +4,10 @@
 
 This is a full-stack, AI-powered web application designed to automate the initial technical screening process for candidates. It provides a seamless, timed interview experience for the interviewee and a powerful, organized dashboard for the interviewer.
 
-**Live Demo:** [**https://your-live-url.vercel.app/**](https://your-live-url.vercel.app/)
+**Live Demo:** [**https://crisp-pi.vercel.app/**](https://crisp-pi.vercel.app/)
 
 ---
 
-![App Demo GIF](https://your-link-to-a-demo.gif)
-*Note: You can create a GIF using free tools like [ScreenToGif](https://www.screentogif.com/) or [Kap](https://getkap.co/) to showcase your app's flow.*
 
 ## 🚀 Core Features
 
@@ -63,7 +61,7 @@ To get a local copy up and running, follow these simple steps.
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+    git clone [https://github.com/bhasidhshaik/Crisp.git](https://github.com/bhasidhshaik/Crisp.git)
     cd your-repo-name
     ```
 
