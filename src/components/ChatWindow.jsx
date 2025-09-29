@@ -22,6 +22,19 @@ const FullscreenPrompt = ({ onReEnter }) => (
 );
 
 
+// --- NEW: Validation Helper Functions ---
+const isValidEmail = (email) => {
+    // A simple regex for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+const isValidPhone = (phone) => {
+    // A simple regex for phone validation (allows for digits, spaces, hyphens, parentheses, and a leading +)
+    const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+    return phoneRegex.test(phone);
+};
+
 const ChatBubble = ({ message, role, difficulty }) => {
     const isUser = role === 'user';
     
@@ -75,14 +88,28 @@ const Timer = ({ duration, onTimeUp }) => {
 const InfoGathering = ({ candidate }) => {
     const dispatch = useDispatch();
     const [missingInfo, setMissingInfo] = useState('');
+
+     const [error, setError] = useState(null);
     
     const missingField = !candidate.name ? 'name' : !candidate.email ? 'email' : 'phone';
     const prompt = `Thanks for the resume! I found some details, but I'm missing your ${missingField}. Could you please provide it?`;
 
-    const handleSubmit = (e) => {
+   const handleSubmit = (e) => {
         e.preventDefault();
-        if (!missingInfo.trim()) return;
-        dispatch(updateAndFinalizeDetails({ [missingField]: missingInfo }));
+        const value = missingInfo.trim();
+        if (!value) return;
+
+        if (missingField === 'email' && !isValidEmail(value)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+        if (missingField === 'phone' && !isValidPhone(value)) {
+            setError('Please enter a valid phone number.');
+            return;
+        }
+        
+        setError(null);
+        dispatch(updateAndFinalizeDetails({ [missingField]: value }));
         setMissingInfo('');
     };
 
@@ -98,6 +125,7 @@ const InfoGathering = ({ candidate }) => {
                 />
                 <Button type="submit"><Send className="h-4 w-4" /></Button>
             </form>
+                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
     );
 };
